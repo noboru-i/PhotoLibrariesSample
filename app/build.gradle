@@ -46,5 +46,8 @@ dependencies {
     // TedPicker
     compile 'com.github.ParkSangGwon:TedPicker:v1.0.10'
 
+    // android-crop
+    compile 'com.soundcloud.android:android-crop:1.0.1@aar'
+
     testCompile 'junit:junit:4.12'
 }

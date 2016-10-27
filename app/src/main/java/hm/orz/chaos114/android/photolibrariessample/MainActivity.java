@@ -15,6 +15,7 @@ import com.gun0912.tedpicker.Config;
 import com.gun0912.tedpicker.ImagePickerActivity;
 import com.laevatein.Laevatein;
 import com.laevatein.MimeType;
+import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_TED_PICKER = 3;
 
     private ImageView[] images;
+    private List<Uri> imagePaths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         initLaevatein();
         initMultiImageSelector();
         initTedPicker();
+
+        initAndroidCrop();
     }
 
     @Override
@@ -64,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case REQUEST_CODE_TED_PICKER:
                 handleTedPicker(resultCode, data);
+                break;
+            case Crop.REQUEST_CROP:
+                handleAndroidCrop(resultCode, data);
                 break;
         }
     }
@@ -164,8 +171,33 @@ public class MainActivity extends AppCompatActivity {
         showImages(uris);
     }
 
+    private void initAndroidCrop() {
+        Button button = (Button) findViewById(R.id.android_crop);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivityPermissionsDispatcher.openAndroidCropWithCheck(MainActivity.this);
+            }
+        });
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void openAndroidCrop() {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(imagePaths.get(0), destination).asSquare().start(this);
+    }
+
+    private void handleAndroidCrop(int resultCode, Intent data) {
+        if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "canceled.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Toast.makeText(this, "data = " + data.getExtras(), Toast.LENGTH_SHORT).show();
+    }
+
     private void showImages(List<Uri> uris) {
         Log.d(TAG, "uris = " + uris);
+        imagePaths = uris;
         for (ImageView image : images) {
             image.setImageResource(0);
         }

@@ -41,21 +41,44 @@
             android:layout_marginRight="8dp"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image Picker"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
     <Button
         android:id="@+id/laevatein"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Laevatein"/>
+        android:text="Laevatein"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/multi_image_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MultiImageSelector"/>
+        android:text="MultiImageSelector"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/ted_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TedPicker"/>
+        android:text="TedPicker"
+        android:textAllCaps="false"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image Crop"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+    <Button
+        android:id="@+id/android_crop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="android-crop"
+        android:textAllCaps="false"/>
+
 </LinearLayout>

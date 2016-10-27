@@ -2,11 +2,13 @@
 <manifest package="hm.orz.chaos114.android.photolibrariessample"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -24,12 +26,16 @@
 
         <!-- MultiImageSelectorActivity -->
         <activity
-            android:configChanges="orientation|screenSize"
-            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:configChanges="orientation|screenSize"/>
 
         <!-- TedPicker -->
-        <activity android:name="com.gun0912.tedpicker.ImagePickerActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.gun0912.tedpicker.ImagePickerActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- android-crop -->
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
     </application>
 
 </manifest>
