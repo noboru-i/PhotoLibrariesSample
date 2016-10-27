@@ -46,4 +46,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Laevatein"/>
+
+    <Button
+        android:id="@+id/multi_image_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MultiImageSelector"/>
 </LinearLayout>

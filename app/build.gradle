@@ -35,5 +35,8 @@ dependencies {
     compile 'jp.mixi:AndroidDeviceCompatibility:2.0.0'
     compile 'jp.co.nohana:Laevatein:1.0.4@aar'
 
+    // MultiImageSelector
+    compile 'com.github.lovetuzitong:MultiImageSelector:1.2'
+
     testCompile 'junit:junit:4.12'
 }
