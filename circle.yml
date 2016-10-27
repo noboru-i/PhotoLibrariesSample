@@ -1,0 +1,18 @@
+machine:
+  java:
+    version: oraclejdk8
+  timezone: Asia/Tokyo
+  environment:
+    TERM: "dumb"
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "tools,extra-android-support"
+    - echo y | android update sdk --no-ui --all --filter "android-24,build-tools-24.0.3,extra-google-m2repository,extra-android-m2repository"
+test:
+  override:
+    - ./gradlew :app:assembleDebug -PdisablePreDex
+deployment:
+  master:
+    branch: master
+    commands:
+      - ./gradlew :app:uploadDeployGateDebug -PdisablePreDex
