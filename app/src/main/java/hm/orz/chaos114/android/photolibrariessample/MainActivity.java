@@ -166,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showImages(List<Uri> uris) {
         Log.d(TAG, "uris = " + uris);
+        for (ImageView image : images) {
+            image.setImageResource(0);
+        }
         for (int i = 0; i < uris.size(); i++) {
             Picasso.with(this).load(uris.get(i)).into(images[i]);
         }
