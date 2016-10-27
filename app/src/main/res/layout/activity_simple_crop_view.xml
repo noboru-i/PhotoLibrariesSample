@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/activity_simple_crop_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="hm.orz.chaos114.android.photolibrariessample.SimpleCropViewActivity">
+
+    <Button
+        android:id="@+id/ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"/>
+
+    <com.isseiaoki.simplecropview.CropImageView
+        android:id="@+id/crop_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        app:scv_background_color="@android:color/darker_gray"
+        app:scv_crop_mode="fit_image"
+        app:scv_frame_color="@color/colorAccent"
+        app:scv_frame_stroke_weight="1dp"
+        app:scv_guide_color="@color/colorAccent"
+        app:scv_guide_show_mode="show_always"
+        app:scv_guide_stroke_weight="1dp"
+        app:scv_handle_color="@color/colorAccent"
+        app:scv_handle_show_mode="show_always"
+        app:scv_handle_size="14dp"
+        app:scv_min_frame_size="50dp"
+        app:scv_overlay_color="#60000000"
+        app:scv_touch_padding="8dp"/>
+</LinearLayout>

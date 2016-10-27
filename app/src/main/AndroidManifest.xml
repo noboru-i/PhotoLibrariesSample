@@ -36,6 +36,10 @@
 
         <!-- android-crop -->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
+
+        <!-- SimpleCropView -->
+        <activity android:name=".SimpleCropViewActivity">
+        </activity>
     </application>
 
 </manifest>

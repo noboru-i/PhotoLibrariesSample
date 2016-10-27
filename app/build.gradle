@@ -49,5 +49,8 @@ dependencies {
     // android-crop
     compile 'com.soundcloud.android:android-crop:1.0.1@aar'
 
+    // SimpleCropView
+    compile 'com.isseiaoki:simplecropview:1.1.4'
+
     testCompile 'junit:junit:4.12'
 }

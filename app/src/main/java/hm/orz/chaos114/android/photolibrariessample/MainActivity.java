@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_LAEVATEIN = 1;
     private static final int REQUEST_CODE_MULTI_IMAGE_SELECTOR = 2;
     private static final int REQUEST_CODE_TED_PICKER = 3;
+    private static final int REQUEST_CODE_SIMPLE_CROP_VIEW = 4;
 
     private ImageView[] images;
     private ImageView croppedImage;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         initTedPicker();
 
         initAndroidCrop();
+        initSimpleCropView();
     }
 
     @Override
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Crop.REQUEST_CROP:
                 handleAndroidCrop(resultCode, data);
+                break;
+            case REQUEST_CODE_SIMPLE_CROP_VIEW:
+                handleSimpleCropView(resultCode, data);
                 break;
         }
     }
@@ -200,6 +205,33 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "extras = " + data.getExtras().toString());
 
         Picasso.with(this).load(destination).into(croppedImage);
+    }
+
+    private void initSimpleCropView() {
+        Button button = (Button) findViewById(R.id.simple_crop_view);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivityPermissionsDispatcher.openSimpleCropViewWithCheck(MainActivity.this);
+            }
+        });
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void openSimpleCropView() {
+        Log.d(TAG, "source = " + imagePaths.get(0));
+        Intent intent = SimpleCropViewActivity.createIntent(this, imagePaths.get(0));
+        startActivityForResult(intent, REQUEST_CODE_SIMPLE_CROP_VIEW);
+    }
+
+    private void handleSimpleCropView(int resultCode, Intent data) {
+        if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "canceled.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Uri uri = data.getParcelableExtra("result_uri");
+
+        Picasso.with(this).load(uri).into(croppedImage);
     }
 
     private void showImages(List<Uri> uris) {
