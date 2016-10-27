@@ -42,5 +42,8 @@ dependencies {
     // MultiImageSelector
     compile 'com.github.lovetuzitong:MultiImageSelector:1.2'
 
+    // TedPicker
+    compile 'com.github.ParkSangGwon:TedPicker:v1.0.10'
+
     testCompile 'junit:junit:4.12'
 }

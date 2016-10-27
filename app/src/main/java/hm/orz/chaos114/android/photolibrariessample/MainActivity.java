@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.gun0912.tedpicker.Config;
+import com.gun0912.tedpicker.ImagePickerActivity;
 import com.laevatein.Laevatein;
 import com.laevatein.MimeType;
 import com.squareup.picasso.Picasso;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_LAEVATEIN = 1;
     private static final int REQUEST_CODE_MULTI_IMAGE_SELECTOR = 2;
+    private static final int REQUEST_CODE_TED_PICKER = 3;
 
     private ImageView[] images;
 
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         initLaevatein();
         initMultiImageSelector();
+        initTedPicker();
     }
 
     @Override
@@ -57,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case REQUEST_CODE_MULTI_IMAGE_SELECTOR:
                 handleMultiImageSelector(resultCode, data);
+                break;
+            case REQUEST_CODE_TED_PICKER:
+                handleTedPicker(resultCode, data);
                 break;
         }
     }
@@ -85,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         List<Uri> selected = Laevatein.obtainResult(data);
-        Log.d(TAG, "selected = " + selected);
         showImages(selected);
     }
 
@@ -119,11 +125,47 @@ public class MainActivity extends AppCompatActivity {
         for (String s : selected) {
             uris.add(Uri.fromFile(new File(s)));
         }
-        Log.d(TAG, "uris = " + uris);
+        showImages(uris);
+    }
+
+    private void initTedPicker() {
+        Button button = (Button) findViewById(R.id.ted_picker);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivityPermissionsDispatcher.openTedPickerWithCheck(MainActivity.this);
+            }
+        });
+    }
+
+    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA})
+    void openTedPicker() {
+        Config config = new Config();
+        config.setSelectionMin(1);
+        config.setSelectionLimit(4);
+
+        ImagePickerActivity.setConfig(config);
+
+        Intent intent = new Intent(this, ImagePickerActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_TED_PICKER);
+    }
+
+    private void handleTedPicker(int resultCode, Intent data) {
+        if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "canceled.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        List<Uri> selected = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+        Log.d(TAG, "selected = " + selected);
+        List<Uri> uris = new ArrayList<>();
+        for (Uri u : selected) {
+            uris.add(Uri.fromFile(new File(u.getPath())));
+        }
         showImages(uris);
     }
 
     private void showImages(List<Uri> uris) {
+        Log.d(TAG, "uris = " + uris);
         for (int i = 0; i < uris.size(); i++) {
             Picasso.with(this).load(uris.get(i)).into(images[i]);
         }
