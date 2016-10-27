@@ -1,5 +1,6 @@
 package hm.orz.chaos114.android.photolibrariessample;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +21,10 @@ import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -62,12 +66,17 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Laevatein.from(MainActivity.this)
-                        .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
-                        .count(1, 4)
-                        .forResult(REQUEST_CODE_LAEVATEIN);
+                MainActivityPermissionsDispatcher.openLaevateinWithCheck(MainActivity.this);
             }
         });
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void openLaevatein() {
+        Laevatein.from(MainActivity.this)
+                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
+                .count(1, 4)
+                .forResult(REQUEST_CODE_LAEVATEIN);
     }
 
     private void handleLaevatein(int resultCode, Intent data) {
@@ -85,13 +94,18 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MultiImageSelector.create()
-                        .showCamera(false)
-                        .count(4)
-                        .multi()
-                        .start(MainActivity.this, REQUEST_CODE_MULTI_IMAGE_SELECTOR);
+                MainActivityPermissionsDispatcher.openMultiImageSelectorWithCheck(MainActivity.this);
             }
         });
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void openMultiImageSelector() {
+        MultiImageSelector.create()
+                .showCamera(false)
+                .count(4)
+                .multi()
+                .start(MainActivity.this, REQUEST_CODE_MULTI_IMAGE_SELECTOR);
     }
 
     private void handleMultiImageSelector(int resultCode, Intent data) {
