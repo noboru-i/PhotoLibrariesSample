@@ -36,7 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_TED_PICKER = 3;
 
     private ImageView[] images;
+    private ImageView croppedImage;
+
     private List<Uri> imagePaths;
+    private Uri destination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         images[1] = (ImageView) findViewById(R.id.image2);
         images[2] = (ImageView) findViewById(R.id.image3);
         images[3] = (ImageView) findViewById(R.id.image4);
+
+        croppedImage = (ImageView) findViewById(R.id.cropped_image);
 
         initLaevatein();
         initMultiImageSelector();
@@ -183,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void openAndroidCrop() {
-        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
         Crop.of(imagePaths.get(0), destination).asSquare().start(this);
     }
 
@@ -192,7 +197,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "canceled.", Toast.LENGTH_SHORT).show();
             return;
         }
-        Toast.makeText(this, "data = " + data.getExtras(), Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "extras = " + data.getExtras().toString());
+
+        Picasso.with(this).load(destination).into(croppedImage);
     }
 
     private void showImages(List<Uri> uris) {
