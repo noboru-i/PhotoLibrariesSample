@@ -193,6 +193,11 @@ public class MainActivity extends AppCompatActivity {
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void openAndroidCrop() {
+        if (!hasPhoto()) {
+            Toast.makeText(this, "pick photo first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
         Crop.of(imagePaths.get(0), destination).asSquare().start(this);
     }
@@ -219,7 +224,11 @@ public class MainActivity extends AppCompatActivity {
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void openSimpleCropView() {
-        Log.d(TAG, "source = " + imagePaths.get(0));
+        if (!hasPhoto()) {
+            Toast.makeText(this, "pick photo first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent = SimpleCropViewActivity.createIntent(this, imagePaths.get(0));
         startActivityForResult(intent, REQUEST_CODE_SIMPLE_CROP_VIEW);
     }
@@ -243,5 +252,9 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < uris.size(); i++) {
             Picasso.with(this).load(uris.get(i)).into(images[i]);
         }
+    }
+
+    private boolean hasPhoto() {
+        return imagePaths != null && imagePaths.get(0) != null;
     }
 }
